@@ -1,0 +1,368 @@
+#include <stdio.h>
+
+#include <stdlib.h>
+
+typedef struct Node {
+
+ int data;
+
+ struct Node* prev;
+
+ struct Node* next;
+
+} Node;
+
+Node* head = NULL;
+
+Node* tail = NULL;
+
+Node* createNode(int data) {
+
+ Node* newNode = (Node*)malloc(sizeof(Node));
+
+ newNode->data = data;
+
+ newNode->prev = NULL;
+
+ newNode->next = NULL;
+
+ return newNode;
+
+}
+
+void addRecord(int data) {
+
+ Node* newNode = createNode(data);
+
+ if (head == NULL) {
+
+ head = tail = newNode;
+
+ } else {
+
+ tail->next = newNode;
+
+ newNode->prev = tail;
+
+ tail = newNode;
+
+ }
+
+ printf("Record added: %d\n", data);
+
+}
+
+void deleteRecord(int data) {
+Node* temp = head;
+
+ while (temp != NULL) {
+
+ if (temp
+
+->data == data) {
+
+ if (temp
+
+->prev != NULL) {
+
+ temp
+
+->prev
+
+->next = temp
+
+->next;
+
+ } else {
+
+ head = temp
+
+->next;
+
+ 
+
+}
+
+ if (temp
+
+->next != NULL) {
+
+ temp
+
+->next
+
+->prev = temp
+
+->prev;
+
+ } else {
+
+ tail = temp
+
+->prev;
+
+ 
+
+}
+
+ free(temp);
+
+ printf("Record deleted: %d
+
+\n", data);
+
+ return;
+
+ 
+
+}
+
+ temp = temp
+
+->next;
+
+ 
+
+}
+
+ printf("Record not found: %d
+
+\n", data);
+
+}
+
+void displayList() {
+
+ Node* temp;
+
+ if (head == NULL) {
+
+ printf("The list is empty.
+
+\n");
+
+ return;
+
+ 
+
+}
+
+ printf("From forward direction
+
+\n");
+
+ temp = head;
+
+ while (temp != NULL) {
+
+ printf("Data
+
+->%d", temp
+
+->data);
+
+ temp = temp
+
+->next;
+
+ 
+
+}
+
+ printf("
+
+\n");
+
+ printf("From backward direction
+
+\n");
+
+ temp = tail;
+
+ while (temp != NULL) {
+
+ printf("Data
+
+->%d", temp
+
+->data);
+
+ temp = temp
+
+->prev;
+
+ 
+
+}
+
+ printf("
+
+\n");
+
+}
+
+void countRecords() {
+
+ int count = 0;
+
+ Node* temp = head;
+
+ while (temp != NULL) {
+count++;
+
+ temp = temp
+
+->next;
+
+ 
+
+}
+
+ printf("The size of the list is %d
+
+\n", count);
+
+}
+
+void searchItem(int data) {
+
+ Node* temp = head;
+
+ while (temp != NULL) {
+
+ if (temp
+
+->data == data) {
+
+ printf("Search no. is present in the list
+
+\n");
+
+ return;
+
+ 
+
+}
+
+ temp = temp
+
+->next;
+
+ 
+
+}
+
+ printf("Search no. is not present in the list
+
+\n");
+
+}
+
+int main() {
+
+ int choice, data;
+
+ char proceed;
+
+ do {
+
+ printf("
+
+\n1.Add records
+
+\n");
+
+ printf("2.Delete records
+
+\n");
+
+ printf("3.Display records
+
+\n");
+
+ printf("4.Count no. of items in the list
+
+\n");
+
+ printf("5.Searching an item in the list
+
+\n");
+
+ printf("6.Exit
+
+\n");
+
+ printf("Enter your choice: ");
+
+ scanf("%d", &choice);
+
+ switch (choice) {
+
+ case 1:
+
+ do {
+
+ printf("Enter data: ");
+
+ scanf("%d", &data);
+
+ addRecord(data);
+
+ printf("
+
+\nWant to proceed y/n: ");
+
+ scanf(" %c", &proceed);
+
+ } while (proceed == 'y' || proceed == 'Y');
+
+ break;
+
+ case 2:
+
+ printf("Enter the data to delete: ");
+
+ scanf("%d", &data);
+
+ deleteRecord(data);
+
+ break;
+
+ case 3:
+
+ displayList();
+
+ break;
+case 4:
+
+ countRecords();
+
+ break;
+
+ case 5:
+
+ printf("Enter the no. to search: ");
+
+ scanf("%d", &data);
+
+ searchItem(data);
+
+ break;
+
+ case 6:
+
+ printf("Exiting program.\n");
+
+ break;
+
+ default:
+
+ printf("Invalid choice. Please try again.\n");
+
+ }
+
+ } while (choice != 6);
+
+ return 0;
+
+}
