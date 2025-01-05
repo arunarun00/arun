@@ -1,0 +1,182 @@
+#include <stdio.h>
+
+#include <stdlib.h>
+
+struct info {
+
+ int data;
+
+ struct info *next;
+
+};
+
+struct info *head = NULL;
+
+void additem() {
+
+ struct info *add;
+
+ char proceed = 'y';
+
+ while (proceed == 'y' || proceed == 'Y') {
+
+ add = (struct info*)malloc(sizeof(struct info));
+
+ printf("Enter data: ");
+
+ scanf("%d", &add->data);
+
+ add->next = NULL;
+
+ if (head == NULL) head = add;
+
+ else {
+
+ struct info *temp = head;
+
+ while (temp->next) temp = temp->next;
+
+ temp->next = add;
+
+ }
+
+ printf("\nWant to proceed y/n: ");
+
+ scanf(" %c", &proceed);
+
+ }
+
+}
+
+void delitem() {
+
+ int tdata;
+
+ printf("\nEnter the data to delete: ");
+
+ scanf("%d", &tdata);
+
+ struct info *curr = head, *prev = NULL;
+
+ while (curr && curr->data != tdata) {
+
+ prev = curr;
+curr = curr->next;
+
+ }
+
+ if (!curr) printf("\nData not found");
+
+ else {
+
+ if (prev) prev->next = curr->next;
+
+ else head = curr->next;
+
+ free(curr);
+
+ }
+
+}
+
+void display() {
+
+ struct info *disp = head;
+
+ if (!disp) printf("\nNo data to display");
+
+ else {
+
+ while (disp) {
+
+ printf("Data->%d ", disp->data);
+
+ disp = disp->next;
+
+ }
+
+ }
+
+ printf("\n");
+
+}
+
+int size() {
+
+ int count = 0;
+
+ struct info *disp = head;
+
+ while (disp) {
+
+ count++;
+
+ disp = disp->next;
+
+ }
+
+ return count;
+
+}
+
+void search() {
+
+ int titem, found = 0;
+
+ printf("\nEnter the no. to search: ");
+
+ scanf("%d", &titem);
+
+ struct info *disp = head;
+
+ while (disp) {
+
+ if (disp->data == titem) {
+
+ found = 1;
+
+ break;
+
+ }
+
+ disp = disp->next;
+
+ }
+
+ if (found) printf("\nSearch no. is present in the list");
+
+ else printf("\nSearch no. is not present in the list");
+
+}
+
+int main() {
+
+ int choice;
+
+ while (1) {
+
+ printf("\n1.Add records\n2.Delete records\n3.Display records\n4.Count no. of items in the list\n5.Searching an item in 
+
+the list\n6.Exit\nEnter your choice: ");
+scanf("%d", &choice);
+
+ switch (choice) {
+
+ case 1: additem(); break;
+
+ case 2: delitem(); break;
+
+ case 3: display(); break;
+
+ case 4: printf("\nThe size of the list is %d", size()); break;
+
+ case 5: search(); break;
+
+ case 6: exit(0);
+
+ }
+
+ }
+
+}
+
